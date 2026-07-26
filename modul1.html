@@ -3,137 +3,167 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Modul 1 · Dein Business Reading</title>
+<title>Modul 1 · Dein Business-Geld-Reading</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --bg: #F6F1E8;
-    --ink: #0B243C;
-    --accent: #E8176A;
-    --mauve: #C49080;
-    --card: #FFFFFF;
-    --line: #E4D9C8;
+  :root { --bg:#F6F1E8; --ink:#0B243C; --accent:#E8176A; --mauve:#C49080; --card:#fff; --line:#E4D9C8; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { background:var(--bg); color:var(--ink); font-family:"Source Sans 3",system-ui,sans-serif; font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:680px; margin:0 auto; padding:32px 22px 64px; }
+  .brand { letter-spacing:.18em; text-transform:uppercase; font-size:13px; font-weight:600; color:var(--mauve); }
+  h1 { font-family:"Tenor Sans",serif; font-weight:400; font-size:34px; line-height:1.15; margin:6px 0 4px; }
+  .sub { font-size:15px; opacity:.72; margin:0 0 28px; }
+
+  .group { margin-bottom:26px; }
+  .group-title { font-family:"Tenor Sans",serif; font-size:20px; color:var(--accent); margin:0 0 4px; }
+  .group-hint { font-size:13.5px; opacity:.6; margin:0 0 14px; }
+
+  .field { margin-bottom:16px; }
+  .row { display:flex; gap:14px; }
+  .row .field { flex:1; }
+  label { display:block; font-weight:600; font-size:14.5px; margin:0 0 6px; }
+  label .req { color:var(--accent); }
+  input, select {
+    width:100%; padding:12px 14px; border-radius:11px; border:1.5px solid var(--line);
+    background:#FBF7F0; color:var(--ink); font-family:inherit; font-size:16px; appearance:none;
   }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 17px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 32px 22px 64px; }
+  input:disabled { opacity:.85; }
+  select { background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230B243C' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat:no-repeat; background-position:right 14px center; padding-right:38px; }
+  .tip { font-size:12.5px; opacity:.55; margin-top:5px; }
 
-  .brand { font-family: "Source Sans 3", sans-serif; letter-spacing: .18em; text-transform: uppercase; font-size: 13px; font-weight: 600; color: var(--mauve); }
-  h1 { font-family: "Tenor Sans", serif; font-weight: 400; font-size: 34px; line-height: 1.15; margin: 6px 0 4px; letter-spacing: .01em; }
-  .sub { font-size: 15px; color: var(--ink); opacity: .72; margin: 0 0 30px; }
+  .btn { width:100%; padding:16px 22px; border:0; border-radius:14px; background:var(--accent); color:#fff; font-family:inherit; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 8px 22px rgba(232,23,106,.28); transition:transform .06s; margin-top:8px; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn:disabled { opacity:.5; cursor:not-allowed; box-shadow:none; transform:none; }
 
-  label.field-label { display: block; font-weight: 600; margin: 0 0 8px; font-size: 15.5px; }
-  .hint { font-size: 13.5px; color: var(--ink); opacity: .6; margin: -2px 0 10px; }
+  .msg { margin-top:16px; padding:13px 16px; border-radius:12px; font-size:15px; display:none; }
+  .msg.err { display:block; background:#FDE7EF; color:#9B0E45; border:1px solid #F6B8CF; }
 
-  input[type="email"] {
-    width: 100%; padding: 13px 15px; border-radius: 12px; border: 1.5px solid var(--line);
-    background: #FBF7F0; color: var(--ink); font-family: inherit; font-size: 16px;
-  }
-  input[type="email"]:disabled { opacity: .85; cursor: not-allowed; }
+  .loading { display:none; align-items:center; gap:12px; margin-top:20px; }
+  .loading.show { display:flex; }
+  .dot { width:13px; height:13px; border-radius:50%; background:var(--accent); animation:pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(.75);opacity:.5} 50%{transform:scale(1.15);opacity:1} }
 
-  .block { margin-bottom: 26px; }
-
-  .drop {
-    border: 2px dashed var(--mauve); border-radius: 16px; background: #FCF9F3;
-    padding: 26px 20px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s, transform .05s;
-  }
-  .drop:hover { border-color: var(--accent); background: #FBF4EE; }
-  .drop.dragover { border-color: var(--accent); background: #FBEEF3; }
-  .drop.filled { border-style: solid; border-color: var(--accent); background: #FFFFFF; }
-  .drop .icon { font-size: 26px; }
-  .drop .big { font-weight: 600; margin: 6px 0 2px; }
-  .drop .small { font-size: 13.5px; opacity: .6; }
-  .drop .filename { color: var(--accent); font-weight: 600; word-break: break-all; }
-  .drop input[type="file"] { display: none; }
-  .preview { max-width: 130px; max-height: 130px; border-radius: 10px; margin: 10px auto 0; display: block; box-shadow: 0 4px 14px rgba(11,36,60,.12); }
-
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; padding: 16px 22px; border: 0; border-radius: 14px;
-    background: var(--accent); color: #fff; font-family: inherit; font-weight: 700; font-size: 17px;
-    cursor: pointer; transition: transform .06s, box-shadow .15s, opacity .15s;
-    box-shadow: 0 8px 22px rgba(232,23,106,.28);
-  }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(232,23,106,.34); }
-  .btn:active { transform: translateY(0); }
-  .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; transform: none; }
-
-  .msg { margin-top: 16px; padding: 13px 16px; border-radius: 12px; font-size: 15px; display: none; }
-  .msg.err { display: block; background: #FDE7EF; color: #9B0E45; border: 1px solid #F6B8CF; }
-
-  .loading { display: none; align-items: center; gap: 12px; margin-top: 22px; font-size: 16px; }
-  .loading.show { display: flex; }
-  .dot { width: 13px; height: 13px; border-radius: 50%; background: var(--accent); animation: pulse 1.1s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { transform: scale(.75); opacity: .5; } 50% { transform: scale(1.15); opacity: 1; } }
-
-  .reading {
-    display: none; margin-top: 26px; background: #FCF8F1; border: 1px solid var(--line);
-    border-radius: 18px; padding: 26px 24px; white-space: pre-wrap; font-size: 17px; line-height: 1.7;
-    box-shadow: 0 10px 30px rgba(11,36,60,.06);
-  }
-  .reading.show { display: block; animation: rise .4s ease; }
-  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  .reading .done-tag { font-family: "Tenor Sans", serif; font-size: 14px; letter-spacing: .04em; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .reading { display:none; margin-top:26px; background:#FCF8F1; border:1px solid var(--line); border-radius:18px; padding:28px 24px; font-size:17px; line-height:1.7; box-shadow:0 10px 30px rgba(11,36,60,.06); }
+  .reading.show { display:block; animation:rise .4s ease; }
+  @keyframes rise { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+  .reading .tag { font-family:"Tenor Sans",serif; font-size:14px; letter-spacing:.04em; color:var(--accent); margin-bottom:14px; }
+  .reading .hallo { font-size:19px; margin:0 0 16px; }
+  .reading .sec { font-family:"Tenor Sans",serif; font-size:19px; color:var(--accent); margin:24px 0 8px; letter-spacing:.02em; }
+  .reading p { margin:0 0 13px; }
+  .reading .sig { margin-top:22px; font-style:italic; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="brand">Reich &amp; Ehrlich</div>
   <h1>Ausgebucht in 30&nbsp;Tagen™</h1>
-  <div class="sub">Modul 1 · Dein Business Reading</div>
+  <div class="sub">Modul 1 · Dein Business-Geld-Reading. Trag Deine Daten ein, Claude schreibt Dir Dein persönliches Reading.</div>
 
-  <div class="block">
-    <label class="field-label" for="email">Deine E-Mail</label>
-    <input type="email" id="email" autocomplete="off" />
-  </div>
-
-  <div class="block">
-    <label class="field-label">Dein Geburtshoroskop</label>
-    <div class="hint">Bild oder PDF, maximal 10 MB.</div>
-    <div class="drop" id="drop-chart" data-slot="chart">
-      <div class="drop-inner">
-        <div class="icon">💰</div>
-        <div class="big">Hier tippen oder Datei reinziehen</div>
-        <div class="small">JPG, PNG oder PDF</div>
+  <!-- PERSON -->
+  <div class="group">
+    <div class="group-title">Wer bist Du</div>
+    <div class="row">
+      <div class="field">
+        <label>Vorname <span class="req">*</span></label>
+        <input type="text" id="vorname" autocomplete="off" />
       </div>
-      <input type="file" accept="image/*,application/pdf" data-input="chart" />
+      <div class="field">
+        <label>Nachname</label>
+        <input type="text" id="nachname" autocomplete="off" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Deine E-Mail <span class="req">*</span></label>
+      <input type="email" id="email" autocomplete="off" />
+      <div class="tip">Die E-Mail, mit der Du gebucht hast. Nur damit läuft Deine Reise.</div>
     </div>
   </div>
 
-  <div class="block">
-    <label class="field-label">Dein Human Design Chart</label>
-    <div class="hint">Bild oder PDF, maximal 10 MB.</div>
-    <div class="drop" id="drop-hd" data-slot="hd">
-      <div class="drop-inner">
-        <div class="icon">💸</div>
-        <div class="big">Hier tippen oder Datei reinziehen</div>
-        <div class="small">JPG, PNG oder PDF</div>
+  <!-- GEBURT -->
+  <div class="group">
+    <div class="group-title">Deine Geburt</div>
+    <div class="group-hint">Für Deine Numerologie und Dein Timing. Die rechnen wir für Dich aus.</div>
+    <div class="row">
+      <div class="field">
+        <label>Geburtstag <span class="req">*</span></label>
+        <input type="date" id="geburtstag" />
       </div>
-      <input type="file" accept="image/*,application/pdf" data-input="hd" />
+      <div class="field">
+        <label>Geburtszeit (Ortszeit)</label>
+        <input type="time" id="geburtszeit" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Geburtsort</label>
+        <input type="text" id="geburtsort" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Geburtsland</label>
+        <input type="text" id="geburtsland" autocomplete="off" />
+      </div>
+    </div>
+  </div>
+
+  <!-- HUMAN DESIGN -->
+  <div class="group">
+    <div class="group-title">Dein Human Design</div>
+    <div class="group-hint">Steht in Deinem kostenlosen Report von jovianarchive.com. Einfach abschreiben.</div>
+    <div class="field">
+      <label>Type <span class="req">*</span></label>
+      <select id="hd_type"><option value="">Bitte wählen …</option></select>
+    </div>
+    <div class="field">
+      <label>Innere Autorität <span class="req">*</span></label>
+      <select id="hd_authority"><option value="">Bitte wählen …</option></select>
+    </div>
+    <div class="field">
+      <label>Profil <span class="req">*</span></label>
+      <select id="hd_profile"><option value="">Bitte wählen …</option></select>
+    </div>
+    <div class="field">
+      <label>Inkarnationskreuz (ganze Zeile)</label>
+      <input type="text" id="hd_cross" autocomplete="off" placeholder="z.B. Right Angle Cross of Maya (11/12 | 46/25)" />
+      <div class="tip">Die ganze Zeile mit Name und Zahlen abschreiben. Optional.</div>
+    </div>
+  </div>
+
+  <!-- ASTROLOGIE -->
+  <div class="group">
+    <div class="group-title">Deine Astrologie</div>
+    <div class="group-hint">Aus einem kostenlosen Chart, z.B. astro.com. Nur die Zeichen.</div>
+    <div class="row">
+      <div class="field">
+        <label>Sonne <span class="req">*</span></label>
+        <select id="sonne"><option value="">–</option></select>
+      </div>
+      <div class="field">
+        <label>Aszendent</label>
+        <select id="aszendent"><option value="">–</option></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Mond</label>
+        <select id="mond"><option value="">–</option></select>
+      </div>
+      <div class="field">
+        <label>Nordknoten</label>
+        <select id="nordknoten"><option value="">–</option></select>
+      </div>
     </div>
   </div>
 
   <button class="btn" id="generate">Mein Reading generieren</button>
 
   <div class="msg err" id="error"></div>
-
-  <div class="loading" id="loading">
-    <span class="dot"></span>
-    <span>Dein Reading wird erstellt...</span>
-  </div>
+  <div class="loading" id="loading"><span class="dot"></span><span>Dein Reading wird geschrieben...</span></div>
 
   <div class="reading" id="reading">
-    <div class="done-tag">✅ Dein Business Reading</div>
+    <div class="tag">✅ Dein Business-Geld-Reading</div>
     <div id="reading-text"></div>
   </div>
 </div>
@@ -143,8 +173,6 @@
 <script>
 (function () {
   const CFG = window.AUSGEBUCHT_CONFIG;
-  // Client erst bei Bedarf bauen, damit die Oberfläche auch mit noch nicht
-  // ausgefüllter config.js funktioniert (createClient wirft sonst bei ungültiger URL).
   let _sb = null;
   function getClient() {
     if (_sb) return _sb;
@@ -154,9 +182,6 @@
     _sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
     return _sb;
   }
-
-  // Liest die echte Fehlermeldung aus einer nicht-2xx Antwort der Edge Function
-  // (z.B. "Diese E-Mail ist nicht freigeschaltet").
   async function readFnError(error) {
     try {
       if (error && error.context && typeof error.context.json === "function") {
@@ -167,126 +192,98 @@
     return (error && error.message) || "Funktion fehlgeschlagen";
   }
 
-  // ---- Email aus ?email= vorbefüllen und sperren ----
+  // Reading hübsch rendern: Überschriften (GROSSBUCHSTABEN-Zeilen) als Sektionen,
+  // Begrüßung oben, Signatur unten, Rest als Absätze.
+  // wandelt **fett** und *kursiv* sicher in HTML (nach dem Escapen)
+  function inline(s) {
+    s = String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    return s;
+  }
+  function renderReading(text, container) {
+    container.innerHTML = "";
+    const lines = String(text).split("\n");
+    let sig = false;
+    lines.forEach(function (raw, i) {
+      const line = raw.trim();
+      if (!line) return;
+      if (i === 0 && /^hallo/i.test(line)) { const d = document.createElement("div"); d.className = "hallo"; d.innerHTML = inline(line); container.appendChild(d); return; }
+      if (/^in liebe/i.test(line)) sig = true;
+      if (sig) { const d = document.createElement("div"); d.className = "sig"; d.innerHTML = inline(line); container.appendChild(d); return; }
+      const plain = line.replace(/\*/g, "");
+      const isHeading = /^[A-ZÄÖÜ0-9 ,]+$/.test(plain) && plain.length > 3 && plain === plain.toUpperCase();
+      if (isHeading) { const d = document.createElement("div"); d.className = "sec"; d.textContent = plain; container.appendChild(d); return; }
+      const p = document.createElement("p");
+      p.innerHTML = inline(line);
+      container.appendChild(p);
+    });
+  }
+
+  // Dropdowns füllen
+  const TYPES = ["Generator", "Manifesting Generator", "Projektor", "Manifestor", "Reflektor"];
+  const AUTH = ["Emotional", "Sakral", "Milz", "Ego/Herz", "Selbst-projiziert", "Mental/Umgebung", "Mond"];
+  const PROFILES = ["1/3", "1/4", "2/4", "2/5", "3/5", "3/6", "4/6", "4/1", "5/1", "5/2", "6/2", "6/3"];
+  const SIGNS = ["Widder", "Stier", "Zwilling", "Krebs", "Löwe", "Jungfrau", "Waage", "Skorpion", "Schütze", "Steinbock", "Wassermann", "Fische"];
+  function fill(id, arr) {
+    const sel = document.getElementById(id);
+    arr.forEach(function (v) { const o = document.createElement("option"); o.value = v; o.textContent = v; sel.appendChild(o); });
+  }
+  fill("hd_type", TYPES); fill("hd_authority", AUTH); fill("hd_profile", PROFILES);
+  ["sonne", "aszendent", "mond", "nordknoten"].forEach(function (id) { fill(id, SIGNS); });
+
+  // Email aus ?email= vorbefüllen und sperren
   const params = new URLSearchParams(window.location.search);
   const emailParam = (params.get("email") || "").trim();
   const emailInput = document.getElementById("email");
-  if (emailParam) {
-    emailInput.value = emailParam;
-    emailInput.disabled = true;
-  }
-
-  const MAX = 10 * 1024 * 1024;
-  const files = { chart: null, hd: null };
+  if (emailParam) { emailInput.value = emailParam; emailInput.disabled = true; }
 
   const errBox = document.getElementById("error");
   function showError(t) { errBox.textContent = t; errBox.style.display = "block"; }
   function clearError() { errBox.style.display = "none"; }
+  function val(id) { return (document.getElementById(id).value || "").trim(); }
 
-  // ---- Upload-Zonen verdrahten ----
-  document.querySelectorAll(".drop").forEach(function (drop) {
-    const slot = drop.dataset.slot;
-    const input = drop.querySelector('input[type="file"]');
-
-    drop.addEventListener("click", function () { input.click(); });
-    drop.addEventListener("dragover", function (e) { e.preventDefault(); drop.classList.add("dragover"); });
-    drop.addEventListener("dragleave", function () { drop.classList.remove("dragover"); });
-    drop.addEventListener("drop", function (e) {
-      e.preventDefault(); drop.classList.remove("dragover");
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(slot, drop, e.dataTransfer.files[0]);
-    });
-    input.addEventListener("change", function () {
-      if (input.files && input.files[0]) handleFile(slot, drop, input.files[0]);
-    });
-  });
-
-  function handleFile(slot, drop, file) {
+  document.getElementById("generate").addEventListener("click", async function () {
     clearError();
-    const okType = file.type.startsWith("image/") || file.type === "application/pdf";
-    if (!okType) { showError("Bitte ein Bild oder PDF hochladen."); return; }
-    if (file.size > MAX) { showError("Die Datei ist größer als 10 MB. Bitte kleiner machen."); return; }
-    files[slot] = file;
+    const payload = {
+      email: emailInput.value.trim(),
+      vorname: val("vorname"), nachname: val("nachname"),
+      geburtstag: val("geburtstag"), geburtszeit: val("geburtszeit"),
+      geburtsort: val("geburtsort"), geburtsland: val("geburtsland"),
+      hd_type: val("hd_type"), hd_authority: val("hd_authority"), hd_profile: val("hd_profile"), hd_cross: val("hd_cross"),
+      sonne: val("sonne"), aszendent: val("aszendent"), mond: val("mond"), nordknoten: val("nordknoten"),
+    };
+    // Pflichtfelder
+    const missing = [];
+    if (!payload.email) missing.push("E-Mail");
+    if (!payload.vorname) missing.push("Vorname");
+    if (!payload.geburtstag) missing.push("Geburtstag");
+    if (!payload.hd_type) missing.push("Type");
+    if (!payload.hd_authority) missing.push("Autorität");
+    if (!payload.hd_profile) missing.push("Profil");
+    if (!payload.sonne) missing.push("Sonne");
+    if (missing.length) { showError("Bitte noch ausfüllen: " + missing.join(", ")); return; }
 
-    const isImg = file.type.startsWith("image/");
-    const previewHtml = isImg
-      ? '<img class="preview" src="' + URL.createObjectURL(file) + '" alt="" />'
-      : '<div class="icon">📄</div>';
-    drop.classList.add("filled");
-    drop.querySelector(".drop-inner").innerHTML =
-      previewHtml +
-      '<div class="big" style="margin-top:8px">Datei bereit ✅</div>' +
-      '<div class="filename">' + escapeHtml(file.name) + '</div>' +
-      '<div class="small">Zum Ändern erneut tippen</div>';
-  }
-
-  function escapeHtml(s) {
-    return s.replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  function extOf(file) {
-    if (file.type === "application/pdf") return "pdf";
-    const m = file.name.match(/\.([a-zA-Z0-9]+)$/);
-    return m ? m[1].toLowerCase() : "png";
-  }
-
-  function safeEmailKey(email) {
-    return email.toLowerCase().replace(/[^a-z0-9]+/g, "_");
-  }
-
-  async function uploadToStorage(email, slot, file) {
-    const sb = getClient();
-    const path = safeEmailKey(email) + "/" + slot + "_" + Date.now() + "." + extOf(file);
-    const { error } = await sb.storage.from(CFG.STORAGE_BUCKET).upload(path, file, {
-      cacheControl: "3600", upsert: true, contentType: file.type,
-    });
-    if (error) throw new Error("Upload fehlgeschlagen: " + error.message);
-    const { data } = sb.storage.from(CFG.STORAGE_BUCKET).getPublicUrl(path);
-    return data.publicUrl;
-  }
-
-  // ---- Reading generieren ----
-  const btn = document.getElementById("generate");
-  const loading = document.getElementById("loading");
-  const readingBox = document.getElementById("reading");
-  const readingText = document.getElementById("reading-text");
-
-  btn.addEventListener("click", async function () {
-    clearError();
-    const email = emailInput.value.trim();
-    if (!email) { showError("Bitte Deine E-Mail eintragen."); return; }
-    if (!files.chart) { showError("Bitte lade Dein Geburtshoroskop hoch."); return; }
-    if (!files.hd) { showError("Bitte lade Dein Human Design Chart hoch."); return; }
-
-    btn.disabled = true;
-    loading.classList.add("show");
-    readingBox.classList.remove("show");
+    const btn = this; btn.disabled = true;
+    document.getElementById("loading").classList.add("show");
+    document.getElementById("reading").classList.remove("show");
 
     try {
       const sb = getClient();
-      const [chartUrl, hdUrl] = await Promise.all([
-        uploadToStorage(email, "chart", files.chart),
-        uploadToStorage(email, "hd", files.hd),
-      ]);
-
-      const { data, error } = await sb.functions.invoke("super-service", {
-        body: { email: email, chart_url: chartUrl, hd_url: hdUrl },
-      });
+      const { data, error } = await sb.functions.invoke("super-service", { body: payload });
       if (error) throw new Error(await readFnError(error));
       if (data && data.error) throw new Error(data.error);
-
       const reading = (data && data.data && data.data.reading) || (data && data.reading);
       if (!reading) throw new Error("Kein Reading zurückbekommen.");
 
-      loading.classList.remove("show");
-      readingText.textContent = reading;
-      readingBox.classList.add("show");
-      readingBox.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById("loading").classList.remove("show");
+      renderReading(reading, document.getElementById("reading-text"));
+      document.getElementById("reading").classList.add("show");
+      document.getElementById("reading").scrollIntoView({ behavior: "smooth", block: "start" });
       btn.textContent = "Reading neu generieren";
       btn.disabled = false;
     } catch (e) {
-      loading.classList.remove("show");
+      document.getElementById("loading").classList.remove("show");
       showError("Da ist was schiefgelaufen: " + e.message);
       btn.disabled = false;
     }
