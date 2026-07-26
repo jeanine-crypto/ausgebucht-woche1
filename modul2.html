@@ -82,6 +82,24 @@
 
   <div class="app" id="app">
 
+    <!-- DEIN BUSINESS -->
+    <div class="section">
+      <h2>Dein Business</h2>
+      <div class="q">Damit wir am Ende Dein Ausgebucht-Angebot bauen können, sag uns kurz, was Du machst.</div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-weight:600;margin-bottom:6px">Was machst Du? Dein Thema in einem Satz.</label>
+        <textarea id="business_thema" placeholder="z.B. Ich helfe Frauen, über ihr Geburtshoroskop ihr Business aufzubauen."></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-weight:600;margin-bottom:6px">Dein aktuelles Angebot</label>
+        <textarea id="business_angebot" placeholder="Was verkaufst Du gerade? Format, Inhalt, Dauer."></textarea>
+      </div>
+      <div>
+        <label style="display:block;font-weight:600;margin-bottom:6px">Dein aktueller Preis</label>
+        <input type="text" id="business_preis" placeholder="z.B. 1.500 Euro" style="width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid var(--line);background:#FBF7F0;color:var(--ink);font-family:inherit;font-size:16px" />
+      </div>
+    </div>
+
     <!-- SECTION 1 -->
     <div class="section" data-key="preise">
       <h2>Deine Preise</h2>
@@ -235,6 +253,9 @@
     const payload = {
       email: email,
       action: "save",
+      business_thema: (document.getElementById("business_thema").value || "").trim(),
+      business_angebot: (document.getElementById("business_angebot").value || "").trim(),
+      business_preis: (document.getElementById("business_preis").value || "").trim(),
       preise_turnon: state.preise === "yes",
       preise_nein: state.preise === "no" ? val('[data-text="preise_nein"]') : null,
       angebot_turnon: state.angebot === "yes",
