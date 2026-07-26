@@ -113,6 +113,7 @@
     String(text).split("\n").forEach(function (raw) {
       const line = raw.trim();
       if (!line) return;
+      if (/^[-—_\s]+$/.test(line)) return; // Trennlinien überspringen
       const plain = line.replace(/\*/g, "");
       const isHeading = /^[A-ZÄÖÜ0-9 ,]+$/.test(plain) && plain.length > 3 && plain === plain.toUpperCase();
       if (isHeading) { const d = document.createElement("div"); d.className = "sec"; d.textContent = plain; container.appendChild(d); return; }
