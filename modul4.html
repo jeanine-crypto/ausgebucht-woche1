@@ -40,7 +40,11 @@
   .msg { margin-top:16px; padding:13px 16px; border-radius:12px; font-size:15px; display:none; }
   .msg.err { display:block; background:#FDE7EF; color:#9B0E45; border:1px solid #F6B8CF; }
 
-  .result { display:none; margin-top:28px; background:#FCF8F1; border:1px solid var(--line); border-radius:20px; padding:30px 26px; white-space:pre-wrap; font-size:17px; line-height:1.75; box-shadow:0 12px 34px rgba(11,36,60,.08); }
+  .result { display:none; margin-top:28px; background:#FCF8F1; border:1px solid var(--line); border-radius:20px; padding:30px 26px; font-size:17px; line-height:1.75; box-shadow:0 12px 34px rgba(11,36,60,.08); }
+  .result .sec { font-family:"Tenor Sans",serif; font-size:20px; color:var(--accent); margin:28px 0 10px; letter-spacing:.02em; }
+  .result p { margin:0 0 14px; }
+  .result strong { font-weight:700; }
+  .result em { color:#8a6b5d; font-style:italic; }
   .result.show { display:block; animation:rise .45s ease; }
   @keyframes rise { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
   .result .tag { font-family:"Tenor Sans",serif; font-size:14px; letter-spacing:.05em; color:var(--accent); margin-bottom:14px; }
@@ -97,6 +101,26 @@
     } catch (_) {}
     return (error && error.message) || "Funktion fehlgeschlagen";
   }
+  // **fett** und *kursiv* sicher in HTML wandeln
+  function inline(s) {
+    s = String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    return s;
+  }
+  function renderReading(text, container) {
+    container.innerHTML = "";
+    String(text).split("\n").forEach(function (raw) {
+      const line = raw.trim();
+      if (!line) return;
+      const plain = line.replace(/\*/g, "");
+      const isHeading = /^[A-ZÄÖÜ0-9 ,]+$/.test(plain) && plain.length > 3 && plain === plain.toUpperCase();
+      if (isHeading) { const d = document.createElement("div"); d.className = "sec"; d.textContent = plain; container.appendChild(d); return; }
+      const p = document.createElement("p");
+      p.innerHTML = inline(line);
+      container.appendChild(p);
+    });
+  }
   const params = new URLSearchParams(window.location.search);
   const email = (params.get("email") || "").trim();
 
@@ -145,7 +169,7 @@
       if (!auswertung) throw new Error("Keine Auswertung zurückbekommen.");
 
       loading.classList.remove("show"); stopDots();
-      document.getElementById("result-text").textContent = auswertung;
+      renderReading(auswertung, document.getElementById("result-text"));
       document.getElementById("result").classList.add("show");
       if (payload.email_gesendet) document.getElementById("mailnote").classList.add("show");
       document.getElementById("result").scrollIntoView({ behavior:"smooth", block:"start" });
